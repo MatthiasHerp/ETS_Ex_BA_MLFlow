@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
-import statsmodels.api as sm
+#import statsmodels.api as sm
 import matplotlib
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import os
 import datetime as dt
 import statsmodels as sm
@@ -418,28 +418,28 @@ if __name__ == "__main__":
         forecasted_values_365 = forecasted_values_365.set_index('date')
 
         #Plot the results over the entire time span
-        plt.figure(figsize=(15, 5))
-        plt.plot(revenue_CA_1_FOODS_day, color = 'blue')
-        plt.plot(fit_values, color="green")
-        plt.plot(forecasted_values_365, color="red")
-        plt.xlabel("date")
-        plt.ylabel("revenue_CA_1_FOODS")
-        plt.legend(("realization", "fitted","forecast"),  
-                       loc="upper left")
-        plt.show()
+        #plt.figure(figsize=(15, 5))
+        #plt.plot(revenue_CA_1_FOODS_day, color = 'blue')
+        #plt.plot(fit_values, color="green")
+        #plt.plot(forecasted_values_365, color="red")
+        #plt.xlabel("date")
+        #plt.ylabel("revenue_CA_1_FOODS")
+        #plt.legend(("realization", "fitted","forecast"),  
+        #               loc="upper left")
+        #plt.show()
 
         #make sure the prediction data set index is a date variable for plotting
         y_predict.index =pd.to_datetime(y_predict.index)
 
         #Plot the first 31 days of the prediction data and their forecasts
-        plt.figure(figsize=(15, 5))
-        plt.plot(y_predict[:31])
-        plt.plot(forecasted_values_31, color="red")
-        plt.xlabel("date")
-        plt.ylabel("revenue_CA_1_FOODS")
-        plt.legend(("realization", "forecast"),  
-                       loc="upper left")
-        plt.show()
+        #plt.figure(figsize=(15, 5))
+        #plt.plot(y_predict[:31])
+        #plt.plot(forecasted_values_31, color="red")
+        #plt.xlabel("date")
+        #plt.ylabel("revenue_CA_1_FOODS")
+        #plt.legend(("realization", "forecast"),  
+        #               loc="upper left")
+        #plt.show()
         
         y_prediction_horizons = (y_predict['revenue'][:7],y_predict['revenue'][:14],
                                       y_predict['revenue'][:21],y_predict['revenue'][:31],
