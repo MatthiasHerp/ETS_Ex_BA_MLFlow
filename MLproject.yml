@@ -1,9 +1,0 @@
-name: naiv
-
-conda_env: naiv.yaml
-
-entry_points:
-  main:
-    parameters:
-      alpha: float
-    command: "python train.py {alpha}"

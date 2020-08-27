@@ -1,0 +1,10 @@
+name: ETS
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      before: string
+      after: string
+    command: "python train.py {before} {after}"
