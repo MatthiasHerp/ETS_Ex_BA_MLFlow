@@ -17,20 +17,21 @@ import mlflow
 if __name__ == "__main__":
 
 
-    #setting working directory
-    os.chdir("C:/Users/mah/Desktop/M5_Wallmart_Challenge")
-    os.getcwd()
+   
 
     #reading in the revenue_CA_1_FOODS_day time series csv
-    revenue_CA_1_FOODS_day = pd.read_csv("revenue_CA_1_FOODS_day.csv", index_col='date')
+    revenue_CA_1_FOODS_day = os.path.join(os.path.dirname(os.path.abspath(__file__)), "revenue_CA_1_FOODS_day.csv")
+    revenue_CA_1_FOODS_day = pd.read_csv(revenue_CA_1_FOODS_day, index_col='date')
 
     #defining the training and evaluation set
     y = revenue_CA_1_FOODS_day[:-365]
     y_predict = revenue_CA_1_FOODS_day[-365:]
 
     #reading in the exogen variables which are the SNAP, Sporting, Cultural, National and Religious events
-    exogen = pd.read_csv("exogen_variables.csv", index_col='date')
-    
+    exogen = os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
+    exogen = pd.read_csv(exogen, index_col='date')
+
+
     def days_around_events(exogen, before, after):
         df_before = pd.DataFrame()
         df_before['date'] = exogen.index
@@ -311,7 +312,8 @@ if __name__ == "__main__":
 
 
    
-    mlflow.set_experiment("First")
+    #setting the experiment
+    mlflow.set_experiment("ETS_Exog_B_A")
     
     # Useful for multiple runs (only doing one run in this sample notebook)    
     with mlflow.start_run():
@@ -355,24 +357,28 @@ if __name__ == "__main__":
         #Plotting results
         revenue_CA_1_FOODS_day.index =pd.to_datetime(revenue_CA_1_FOODS_day.index)
         #Plot the fit and the training data set
-        plt.figure(figsize=(15, 5))
-        plt.plot(revenue_CA_1_FOODS_day[:-365], color = 'blue')
-        plt.plot(fit_values, color="green")
-        plt.xlabel("date")
-        plt.ylabel("revenue_CA_1_FOODS")
-        plt.legend(("realization", "fitted"),  
-                       loc="upper left")
-        plt.show()
+        #plt.figure(figsize=(15, 5))
+        #plt.plot(revenue_CA_1_FOODS_day[:-365], color = 'blue')
+        #plt.plot(fit_values, color="green")
+        #plt.xlabel("date")
+        #plt.ylabel("revenue_CA_1_FOODS")
+        #plt.legend(("realization", "fitted"),  
+        #               loc="upper left")
+        #plt.savefig('fit_total_plot.png')
+       
+        #mlflow.log_artifact("./fit_total_plot.png")
 
         #Plot the fitted and training data set fpr the first year
-        plt.figure(figsize=(15, 5))
-        plt.plot(revenue_CA_1_FOODS_day[:366])
-        plt.plot(fit_values[:366], color="green")
-        plt.xlabel("date")
-        plt.ylabel("revenue_CA_1_FOODS")
-        plt.legend(("realization", "fitted"),  
-                       loc="upper left")
-        plt.show()
+        #plt.figure(figsize=(15, 5))
+        #plt.plot(revenue_CA_1_FOODS_day[:366])
+        #plt.plot(fit_values[:366], color="green")
+        #plt.xlabel("date")
+        #plt.ylabel("revenue_CA_1_FOODS")
+        #plt.legend(("realization", "fitted"),  
+        #               loc="upper left")
+        #plt.savefig('fit_1year_plot.png')
+        
+        #mlflow.log_artifact("./fit_1year_plot.png")
 
         #extracting the last (most recent) values of the states for forecasting
         l_values = fit['l_list'][len(fit['l_list'])-1:]
@@ -426,7 +432,9 @@ if __name__ == "__main__":
         #plt.ylabel("revenue_CA_1_FOODS")
         #plt.legend(("realization", "fitted","forecast"),  
         #               loc="upper left")
-        #plt.show()
+        #plt.savefig('fit_forecast_total_plot.png')
+        
+        #mlflow.log_artifact("./fit_forecast_total_plot.png")
 
         #make sure the prediction data set index is a date variable for plotting
         y_predict.index =pd.to_datetime(y_predict.index)
@@ -439,7 +447,9 @@ if __name__ == "__main__":
         #plt.ylabel("revenue_CA_1_FOODS")
         #plt.legend(("realization", "forecast"),  
         #               loc="upper left")
-        #plt.show()
+        # plt.savefig('fit_forecast_31days_plot.png')
+        
+        #mlflow.log_artifact("./fit_forecast_31days_plot.png")
         
         y_prediction_horizons = (y_predict['revenue'][:7],y_predict['revenue'][:14],
                                       y_predict['revenue'][:21],y_predict['revenue'][:31],
@@ -464,6 +474,16 @@ if __name__ == "__main__":
             mlflow.log_metric(key = "MAE", 
                               value = mean_absolute_error(y_prediction_horizons[i], forecast_values_horizons[i]), 
                               step = horizon[i])
+        
+        #Saving Parameters
+        mlflow.log_param("before", before)
+        mlflow.log_param("after", after)
+                            
+        #Saving optimal Parameters as csv artifact
+        Optimum_Parameters = pd.DataFrame(res.x)
+        Optimum_Parameters.to_csv('Optimum_Parameters.csv') 
+        mlflow.log_artifact("./Optimum_Parameters.csv")
+        
         
 
         #mlflow.log_model(model, "ETS_Exogen")
