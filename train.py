@@ -31,6 +31,10 @@ if __name__ == "__main__":
     #reading in the exogen variables which are the SNAP, Sporting, Cultural, National and Religious events
     exogen = os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
     exogen = pd.read_csv(exogen, index_col='date')
+    
+    #Importing the given before and after parameters
+    before = float(sys.argv[1])
+    after = float(sys.argv[2])
 
 
     def days_around_events(exogen, before, after):
