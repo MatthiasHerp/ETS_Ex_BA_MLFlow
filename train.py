@@ -23,8 +23,8 @@ if __name__ == "__main__":
    
    with mlflow.start_run():
       mlflow.log_param("bla", bla)
-      #mlflow.log_param("before", before)
-      #mlflow.log_param("after", after)
+      mlflow.log_param("before_test", before)
+      mlflow.log_param("after_test", after)
       
 
    
