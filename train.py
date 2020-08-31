@@ -15,7 +15,12 @@ import mlflow
 
 
 if __name__ == "__main__":
-
+   before = sys.argv[1]
+   after = sys.argv[2]
+   
+   with mlflow.start_run():
+      mlflow.log_param("before", before)
+      mlflow.log_param("after", after)
 
    
 
@@ -32,12 +37,6 @@ if __name__ == "__main__":
     #exogen = pd.read_csv(exogen, index_col='date')
     
     #Importing the given before and after parameters
-    before = sys.argv[1]
-    after = sys.argv[2]
-      
-    with mlflow.start_run():
-        mlflow.log_param("before", before)
-        mlflow.log_param("after", after)
         
 
    
