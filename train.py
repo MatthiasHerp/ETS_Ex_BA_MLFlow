@@ -17,14 +17,14 @@ import mlflow
 #str(sys.argv)
 
 if __name__ == "__main__":
-   #before = sys.argv[1]
-   #after = sys.argv[2]
+   before = [float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5])]
+   after = [float(sys.argv[6]), float(sys.argv[7]), float(sys.argv[8]), float(sys.argv[9]), float(sys.argv[10])]
    bla = str(sys.argv)
    
    with mlflow.start_run():
       mlflow.log_param("bla", bla)
-      #mlflow.log_param("before_test", before)
-     # mlflow.log_param("after_test", parameters)
+      mlflow.log_param("before_test", before)
+      mlflow.log_param("after_test", parameters)
       
 
    
