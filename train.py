@@ -19,10 +19,10 @@ if __name__ == "__main__":
    after = len(sys.argv)
    bla = str(sys.argv)
    
-   with mlflow.start_run():
-      mlflow.log_param("before", before)
-      mlflow.log_param("after", after)
-      mlflow.log_param("bla", bla)
+   #with mlflow.start_run():
+    #  mlflow.log_param("before", before)
+     # mlflow.log_param("after", after)
+      #mlflow.log_param("bla", bla)
 
    
 
