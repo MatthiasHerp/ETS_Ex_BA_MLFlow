@@ -16,15 +16,15 @@ import mlflow
 #len(sys.argv)
 #str(sys.argv)
 
-#if __name__ == "__main__":
-   #before = sys.argv[0]
-   #after = len(sys.argv)
-   #bla = str(sys.argv)
+if __name__ == "__main__":
+   before = sys.argv[0]
+   after = len(sys.argv)
+   bla = str(sys.argv)
    
-   #with mlflow.start_run():
-    #  mlflow.log_param("before", before)
-     # mlflow.log_param("after", after)
-      #mlflow.log_param("bla", bla)
+   with mlflow.start_run():
+      mlflow.log_param("before", before)
+      mlflow.log_param("after", after)
+      mlflow.log_param("bla", bla)
 
    
 
