@@ -34,6 +34,16 @@ if __name__ == "__main__":
     #Importing the given before and after parameters
     before = float(sys.argv[1])
     after = float(sys.argv[2])
+      
+    with mlflow.start_run():
+        mlflow.log_param("before", before)
+         mlflow.log_param("after", after)
+        
+
+   
+      
+      
+     
       '''
 
 
