@@ -20,16 +20,16 @@ if __name__ == "__main__":
    
 
     #reading in the revenue_CA_1_FOODS_day time series csv
-    revenue_CA_1_FOODS_day = os.path.join(os.path.dirname(os.path.abspath(__file__)), "revenue_CA_1_FOODS_day.csv")
-    revenue_CA_1_FOODS_day = pd.read_csv(revenue_CA_1_FOODS_day, index_col='date')
+    #revenue_CA_1_FOODS_day = os.path.join(os.path.dirname(os.path.abspath(__file__)), "revenue_CA_1_FOODS_day.csv")
+    #revenue_CA_1_FOODS_day = pd.read_csv(revenue_CA_1_FOODS_day, index_col='date')
 
     #defining the training and evaluation set
-    y = revenue_CA_1_FOODS_day[:-365]
-    y_predict = revenue_CA_1_FOODS_day[-365:]
+    #y = revenue_CA_1_FOODS_day[:-365]
+    #y_predict = revenue_CA_1_FOODS_day[-365:]
 
     #reading in the exogen variables which are the SNAP, Sporting, Cultural, National and Religious events
-    exogen = os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
-    exogen = pd.read_csv(exogen, index_col='date')
+    #exogen = os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
+    #exogen = pd.read_csv(exogen, index_col='date')
     
     #Importing the given before and after parameters
     before = float(sys.argv[1])
