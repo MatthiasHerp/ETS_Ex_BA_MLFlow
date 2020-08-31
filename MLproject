@@ -5,6 +5,14 @@ conda_env: conda.yaml
 entry_points:
   main:
     parameters:
-      before: string
-      after: string
-    command: "python train.py {before} {after}"
+      before_Snap: string
+      before_Sport: string
+      before_Cultural: string
+      before_National: string
+      before_Religious: string
+      after_Snap: string
+      after_Sport: string
+      after_Cultural: string
+      after_National: string
+      after_Religious: string
+    command: "python train.py {before_Snap} {before_Sport} {before_Cultural} {before_National} {before_Religious} {after_Snap} {after_Sport} {after_Cultural} {after_National} {after_Religious}"
