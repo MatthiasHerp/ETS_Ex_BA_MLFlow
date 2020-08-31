@@ -11,8 +11,3 @@ dependencies:
   - pip
   - pip:
     - mlflow
-    - scipy
-    - datetime
-    - statistics 
-    - math
-    - statsmodels 
