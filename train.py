@@ -34,6 +34,7 @@ if __name__ == "__main__":
     #Importing the given before and after parameters
     before = float(sys.argv[1])
     after = float(sys.argv[2])
+      '''
 
 
     def days_around_events(exogen, before, after):
@@ -492,3 +493,4 @@ if __name__ == "__main__":
 
         #mlflow.log_model(model, "ETS_Exogen")
 
+'''
