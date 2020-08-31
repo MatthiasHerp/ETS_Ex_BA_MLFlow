@@ -15,7 +15,7 @@ import mlflow
 
 
 if __name__ == "__main__":
-   before = sys.argv[0]
+   #before = sys.argv[0]
    after = len(sys.argv)
    bla = str(sys.argv)
    
