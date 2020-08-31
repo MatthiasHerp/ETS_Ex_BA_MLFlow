@@ -13,11 +13,13 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from scipy.optimize import minimize #LinearConstraint, NonlinearConstraint
 import mlflow
 
+len(sys.argv)
+str(sys.argv)
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
    #before = sys.argv[0]
-   after = len(sys.argv)
-   bla = str(sys.argv)
+   #after = len(sys.argv)
+   #bla = str(sys.argv)
    
    #with mlflow.start_run():
     #  mlflow.log_param("before", before)
