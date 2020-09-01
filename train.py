@@ -300,7 +300,7 @@ if __name__ == "__main__":
       mlflow.log_param("sys_string", sys_string)
       mlflow.log_param("before", before)
       mlflow.log_param("after", after)
-      mlflow.log_param("exog", exogen[1,])
+      mlflow.log_param("exog", exogen.iloc[1])
    '''     
    # Include days before and after events into the exogen data set
    exogen = days_around_events(exogen, before, after)
