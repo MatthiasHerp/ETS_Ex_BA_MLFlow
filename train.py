@@ -17,31 +17,34 @@ import mlflow
 #str(sys.argv)
 
 if __name__ == "__main__":
+   
+   
+   #Importing the given before and after parameters
    before = [float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5])]
    after = [float(sys.argv[6]), float(sys.argv[7]), float(sys.argv[8]), float(sys.argv[9]), float(sys.argv[10])]
-   bla = str(sys.argv)
+   sys_string = str(sys.argv)
+   
+   #reading in the revenue_CA_1_FOODS_day time series csv
+   revenue_CA_1_FOODS_day = os.path.join(os.path.dirname(os.path.abspath(__file__)), "revenue_CA_1_FOODS_day.csv")
+   revenue_CA_1_FOODS_day = pd.read_csv(revenue_CA_1_FOODS_day, index_col='date')
+
+   #defining the training and evaluation set
+   y = revenue_CA_1_FOODS_day[:-365]
+   y_predict = revenue_CA_1_FOODS_day[-365:]
+
+   #reading in the exogen variables which are the SNAP, Sporting, Cultural, National and Religious events
+   exogen = os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
+   exogen = pd.read_csv(exogen, index_col='date')
    
    with mlflow.start_run():
-      mlflow.log_param("bla", bla)
+      mlflow.log_param("sys_string", sys_string)
       mlflow.log_param("before", before)
       mlflow.log_param("after", after)
       
 
    
 
-    #reading in the revenue_CA_1_FOODS_day time series csv
-    #revenue_CA_1_FOODS_day = os.path.join(os.path.dirname(os.path.abspath(__file__)), "revenue_CA_1_FOODS_day.csv")
-    #revenue_CA_1_FOODS_day = pd.read_csv(revenue_CA_1_FOODS_day, index_col='date')
-
-    #defining the training and evaluation set
-    #y = revenue_CA_1_FOODS_day[:-365]
-    #y_predict = revenue_CA_1_FOODS_day[-365:]
-
-    #reading in the exogen variables which are the SNAP, Sporting, Cultural, National and Religious events
-    #exogen = os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
-    #exogen = pd.read_csv(exogen, index_col='date')
     
-    #Importing the given before and after parameters
         
 
    
