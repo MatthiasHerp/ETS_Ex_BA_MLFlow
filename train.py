@@ -73,15 +73,6 @@ def days_around_events(exogen, before, after):
 
     return exogen
 
-
-# Include days before and after events into the exogen data set
-exogen = days_around_events(exogen, before, after)
-
-# Define training and prediction data sets for the exogen variables
-exog_to_train = exogen.iloc[:(len(revenue_CA_1_FOODS_day) - 365)]
-exog_to_test = exogen.iloc[(len(revenue_CA_1_FOODS_day) - 365):]
-
-
 # Defining the Model
 def model(params, y, exog):
     alpha = params[0]
@@ -304,6 +295,14 @@ if __name__ == "__main__":
    #reading in the exogen variables which are the SNAP, Sporting, Cultural, National and Religious events
    exogen = os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
    exogen = pd.read_csv(exogen, index_col='date')
+    
+   
+   # Include days before and after events into the exogen data set
+   exogen = days_around_events(exogen, before, after)
+
+   # Define training and prediction data sets for the exogen variables
+   exog_to_train = exogen.iloc[:(len(revenue_CA_1_FOODS_day) - 365)]
+   exog_to_test = exogen.iloc[(len(revenue_CA_1_FOODS_day) - 365):]
    
    with mlflow.start_run():
       mlflow.log_param("sys_string", sys_string)
