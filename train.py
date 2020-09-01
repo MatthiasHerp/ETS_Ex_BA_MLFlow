@@ -274,7 +274,7 @@ def ETS_M_Ad_M_forecast(alpha, beta, gamma, omega,
             'l_list': l_list, 'b_list': b_list, 's_list': s_list}
 
 
-'''
+
 
 if __name__ == "__main__":
    
@@ -299,6 +299,8 @@ if __name__ == "__main__":
    
    # Include days before and after events into the exogen data set
    exogen = days_around_events(exogen, before, after)
+
+'''
 
    # Define training and prediction data sets for the exogen variables
    exog_to_train = exogen.iloc[:(len(revenue_CA_1_FOODS_day) - 365)]
