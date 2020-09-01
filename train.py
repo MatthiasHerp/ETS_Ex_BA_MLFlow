@@ -274,7 +274,7 @@ def ETS_M_Ad_M_forecast(alpha, beta, gamma, omega,
             'l_list': l_list, 'b_list': b_list, 's_list': s_list}
 
 
-
+'''
 
 if __name__ == "__main__":
    
@@ -316,7 +316,7 @@ if __name__ == "__main__":
         
 
    
-      
+ '''     
       
 '''
 
