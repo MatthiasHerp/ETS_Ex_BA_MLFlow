@@ -280,8 +280,8 @@ if __name__ == "__main__":
    
    
    #Importing the given before and after parameters
-   before = [sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]]
-   after = [sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], sys.argv[10]]
+   before = [str(sys.argv[1]), str(sys.argv[2]), str(sys.argv[3]), str(sys.argv[4]), str(sys.argv[5])]
+   after = [str(sys.argv[6]), str(sys.argv[7]), str(sys.argv[8]), str(sys.argv[9]), str(sys.argv[10])]
    sys_string = str(sys.argv)
    
    #reading in the revenue_CA_1_FOODS_day time series csv
