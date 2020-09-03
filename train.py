@@ -333,11 +333,26 @@ if __name__ == "__main__":
         #adding one bound for each additional day before and after
         for i in range(0,sum(before)+sum(after)):
             bounds.append((-1,np.inf))
+        
+        #Saving Parameters
 
+        mlflow.log_param("before", before)
+
+        mlflow.log_param("after", after)
+
+        mlflow.log_param("sys_string", sys_string)
+
+        mlflow.log_param("exog", exogen.iloc[1])
+        
+        mlflow.log_param("len(bounds)", len(bounds))
+        
+        mlflow.log_param("len(Starting_Parameters_optimal)", len(Starting_Parameters_optimal))
+
+'''
         #running the model optimization
         res = minimize(model, Starting_Parameters_optimal, args=(np.array(y['revenue']), exog_to_train), 
                        method='L-BFGS-B', bounds = bounds)
-'''
+
         #the fit extracter is run with the optimal values optained from the optimizer (res.x) and the time series y
         fit = fit_extracter(res.x, np.array(y['revenue']), exog_to_train)
 
