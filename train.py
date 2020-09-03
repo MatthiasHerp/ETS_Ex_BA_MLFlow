@@ -305,7 +305,7 @@ if __name__ == "__main__":
 
     #setting the experiment
     #mlflow.set_experiment("ETS_Exog_B_A")
-'''    
+    
     # Useful for multiple runs (only doing one run in this sample notebook)    
     with mlflow.start_run():
 
@@ -318,6 +318,16 @@ if __name__ == "__main__":
                 1.44746722e-02,  1.25113251e-02,np.zeros(len(exogen.columns)-5)]
         
         Starting_Parameters_optimal = np.concatenate(Starting_Parameters_optimal,axis=None)
+        
+         #Saving Parameters
+
+        mlflow.log_param("before", before)
+
+        mlflow.log_param("after", after)
+
+        mlflow.log_param("sys_string", sys_string)
+
+'''
 
         #Note: adding zeros for days before and after by the length of exogen. -5 because we have starting values for the event days
         #      concatenate because array in array
