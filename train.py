@@ -311,14 +311,15 @@ if __name__ == "__main__":
 
         #Defining Starting Parameters
         #Optimal Starting parameters after running the starting parameters calculated by the Hyndman method for two iterations
+        '''
         Starting_Parameters_optimal = [ 2.32625532e-01,  1.00000000e-06,  1.41907946e-02,  9.99333847e-01,
                 5.55499458e+03,  3.96440052e+01,  1.14589164e+00,  1.18053933e+00,
                 8.78903981e-01,  7.82677252e-01,  7.54118200e-01,  7.76617802e-01,
                 9.27728973e-01,  1.28533624e-01, -5.34822743e-02, -1.50822221e-01,
-                1.44746722e-02,  1.25113251e-02,np.zeros(len(exogen.columns)-5)]
+                1.44746722e-02,  1.25113251e-02, np.zeros(len(exogen.columns)-5)]
         
         Starting_Parameters_optimal = np.concatenate(Starting_Parameters_optimal,axis=None)
-        
+        '''
          #Saving Parameters
 
         mlflow.log_param("before", before)
