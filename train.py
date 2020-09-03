@@ -345,9 +345,9 @@ if __name__ == "__main__":
 
         mlflow.log_param("exog", exogen.iloc[1])
         
-        mlflow.log_param("len(bounds)", bounds)
+        mlflow.log_param("bounds", bounds)
         
-        mlflow.log_param("len(Starting_Parameters_optimal)", Starting_Parameters_optimal)
+        mlflow.log_param("Starting_Parameters_optimal", Starting_Parameters_optimal)
 '''
         #running the model optimization
         res = minimize(model, Starting_Parameters_optimal, args=(np.array(y['revenue']), exog_to_train), 
