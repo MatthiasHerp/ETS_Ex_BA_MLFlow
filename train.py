@@ -304,7 +304,7 @@ if __name__ == "__main__":
    exog_to_test = exogen.iloc[(len(revenue_CA_1_FOODS_day) - 365):]
 
     #setting the experiment
-    mlflow.set_experiment("ETS_Exog_B_A")
+    #mlflow.set_experiment("ETS_Exog_B_A")
     
     # Useful for multiple runs (only doing one run in this sample notebook)    
     with mlflow.start_run():
