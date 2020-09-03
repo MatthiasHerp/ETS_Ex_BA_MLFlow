@@ -473,9 +473,9 @@ if __name__ == "__main__":
         mlflow.log_param("exog", exogen.iloc[1])
                             
         #Saving optimal Parameters as csv artifact
-        Optimum_Parameters = pd.DataFrame(res.x)
-        Optimum_Parameters.to_csv('Optimum_Parameters.csv') 
-        mlflow.log_artifact("./Optimum_Parameters.csv")
+        #Optimum_Parameters = pd.DataFrame(res.x)
+        #Optimum_Parameters.to_csv('Optimum_Parameters.csv') 
+        #mlflow.log_artifact("./Optimum_Parameters.csv")
         
         
 
