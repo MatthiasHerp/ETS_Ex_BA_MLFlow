@@ -328,7 +328,6 @@ if __name__ == "__main__":
 
         mlflow.log_param("sys_string", sys_string)
 
-'''
 
         #Note: adding zeros for days before and after by the length of exogen. -5 because we have starting values for the event days
         #      concatenate because array in array
@@ -505,4 +504,4 @@ if __name__ == "__main__":
         
 
         #mlflow.log_model(model, "ETS_Exogen")
-'''
+
