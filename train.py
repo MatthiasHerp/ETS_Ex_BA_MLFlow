@@ -280,8 +280,8 @@ if __name__ == "__main__":
    
    
    #Importing the given before and after parameters
-   before = [float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5])]
-   after = [float(sys.argv[6]), float(sys.argv[7]), float(sys.argv[8]), float(sys.argv[9]), float(sys.argv[10])]
+   before = [sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]]
+   after = [sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], sys.argv[10]]
    sys_string = str(sys.argv)
    
    #reading in the revenue_CA_1_FOODS_day time series csv
@@ -296,14 +296,16 @@ if __name__ == "__main__":
    exogen = os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
    exogen = pd.read_csv(exogen, index_col='date')
     
+   # Include days before and after events into the exogen data set
+   exogen = days_around_events(exogen, before, after)
+    
    with mlflow.start_run():
       mlflow.log_param("sys_string", sys_string)
       mlflow.log_param("before", before)
       mlflow.log_param("after", after)
       mlflow.log_param("exog", exogen.iloc[1])
    '''     
-   # Include days before and after events into the exogen data set
-   exogen = days_around_events(exogen, before, after)
+  
 
 
    # Define training and prediction data sets for the exogen variables
