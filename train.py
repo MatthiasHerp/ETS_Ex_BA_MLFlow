@@ -308,7 +308,6 @@ if __name__ == "__main__":
     
    # Useful for multiple runs (only doing one run in this sample notebook)    
    with mlflow.start_run():
-
         #Defining Starting Parameters
         #Optimal Starting parameters after running the starting parameters calculated by the Hyndman method for two iterations
         
@@ -320,7 +319,8 @@ if __name__ == "__main__":
         
         Starting_Parameters_optimal = np.concatenate(Starting_Parameters_optimal,axis=None)
         
-
+        mlflow.log_param("len(Starting_Parameters_optimal)", len(Starting_Parameters_optimal))
+'''
 
         #Note: adding zeros for days before and after by the length of exogen. -5 because we have starting values for the event days
         #      concatenate because array in array
@@ -350,6 +350,7 @@ if __name__ == "__main__":
         mlflow.log_param("len(bounds)", len(bounds))
         
         mlflow.log_param("len(Starting_Parameters_optimal)", len(Starting_Parameters_optimal))
+'''
 '''
         #running the model optimization
         res = minimize(model, Starting_Parameters_optimal, args=(np.array(y['revenue']), exog_to_train), 
