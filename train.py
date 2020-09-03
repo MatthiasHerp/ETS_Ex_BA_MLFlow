@@ -319,7 +319,7 @@ if __name__ == "__main__":
         
         Starting_Parameters_optimal = np.concatenate(Starting_Parameters_optimal,axis=None)
         
-        mlflow.log_param("len(Starting_Parameters_optimal)", len(Starting_Parameters_optimal))
+        #mlflow.log_param("len(Starting_Parameters_optimal)", len(Starting_Parameters_optimal))
 '''
 
         #Note: adding zeros for days before and after by the length of exogen. -5 because we have starting values for the event days
