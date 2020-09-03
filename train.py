@@ -320,13 +320,6 @@ if __name__ == "__main__":
         
         Starting_Parameters_optimal = np.concatenate(Starting_Parameters_optimal,axis=None)
         
-         #Saving Parameters
-
-        mlflow.log_param("before", before)
-
-        mlflow.log_param("after", after)
-
-        mlflow.log_param("sys_string", sys_string)
 
 
         #Note: adding zeros for days before and after by the length of exogen. -5 because we have starting values for the event days
@@ -357,7 +350,7 @@ if __name__ == "__main__":
         mlflow.log_param("len(bounds)", len(bounds))
         
         mlflow.log_param("len(Starting_Parameters_optimal)", len(Starting_Parameters_optimal))
-
+'''
         #running the model optimization
         res = minimize(model, Starting_Parameters_optimal, args=(np.array(y['revenue']), exog_to_train), 
                        method='L-BFGS-B', bounds = bounds)
@@ -505,3 +498,4 @@ if __name__ == "__main__":
 
         #mlflow.log_model(model, "ETS_Exogen")
 
+'''
