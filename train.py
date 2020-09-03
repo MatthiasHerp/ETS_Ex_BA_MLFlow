@@ -298,14 +298,14 @@ if __name__ == "__main__":
     
    # Include days before and after events into the exogen data set
    exogen = days_around_events(exogen, before, after)
-'''    
+
    # Define training and prediction data sets for the exogen variables
    exog_to_train = exogen.iloc[:(len(revenue_CA_1_FOODS_day) - 365)]
    exog_to_test = exogen.iloc[(len(revenue_CA_1_FOODS_day) - 365):]
 
     #setting the experiment
     #mlflow.set_experiment("ETS_Exog_B_A")
-    
+'''    
     # Useful for multiple runs (only doing one run in this sample notebook)    
     with mlflow.start_run():
 
