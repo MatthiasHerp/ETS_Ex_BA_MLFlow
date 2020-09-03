@@ -318,9 +318,7 @@ if __name__ == "__main__":
                 1.44746722e-02,  1.25113251e-02, np.zeros(len(exogen.columns)-5)]
         
         Starting_Parameters_optimal = np.concatenate(Starting_Parameters_optimal,axis=None)
-        
-        mlflow.log_param("Starting_Parameters_optimal", Starting_Parameters_optimal)
-'''
+  
 
         #Note: adding zeros for days before and after by the length of exogen. -5 because we have starting values for the event days
         #      concatenate because array in array
@@ -347,10 +345,9 @@ if __name__ == "__main__":
 
         mlflow.log_param("exog", exogen.iloc[1])
         
-        mlflow.log_param("len(bounds)", len(bounds))
+        mlflow.log_param("len(bounds)", bounds)
         
-        mlflow.log_param("len(Starting_Parameters_optimal)", len(Starting_Parameters_optimal))
-'''
+        mlflow.log_param("len(Starting_Parameters_optimal)", Starting_Parameters_optimal)
 '''
         #running the model optimization
         res = minimize(model, Starting_Parameters_optimal, args=(np.array(y['revenue']), exog_to_train), 
