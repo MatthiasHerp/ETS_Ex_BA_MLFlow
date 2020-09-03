@@ -298,7 +298,7 @@ if __name__ == "__main__":
     
    # Include days before and after events into the exogen data set
    exogen = days_around_events(exogen, before, after)
-    
+'''    
    # Define training and prediction data sets for the exogen variables
    exog_to_train = exogen.iloc[:(len(revenue_CA_1_FOODS_day) - 365)]
    exog_to_test = exogen.iloc[(len(revenue_CA_1_FOODS_day) - 365):]
@@ -308,7 +308,7 @@ if __name__ == "__main__":
     
     # Useful for multiple runs (only doing one run in this sample notebook)    
     with mlflow.start_run():
-'''
+
         #Defining Starting Parameters
         #Optimal Starting parameters after running the starting parameters calculated by the Hyndman method for two iterations
         Starting_Parameters_optimal = [ 2.32625532e-01,  1.00000000e-06,  1.41907946e-02,  9.99333847e-01,
