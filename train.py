@@ -352,7 +352,7 @@ if __name__ == "__main__":
         #running the model optimization
         res = minimize(model, Starting_Parameters_optimal, args=(np.array(y['revenue']), exog_to_train), 
                        method='L-BFGS-B', bounds = bounds)
-'''
+
         #the fit extracter is run with the optimal values optained from the optimizer (res.x) and the time series y
         fit = fit_extracter(res.x, np.array(y['revenue']), exog_to_train)
 
@@ -495,5 +495,3 @@ if __name__ == "__main__":
         
 
         #mlflow.log_model(model, "ETS_Exogen")
-
-'''
