@@ -638,3 +638,16 @@ if __name__ == "__main__":
                       l_init_HM,b_init_HM,s_init_HM,reg,h,exogen) #note I changed exog to exogen here as well as in the hwl function
 
                 return np.concatenate(results,axis=None) #i concatenate because otherwise each result is one array
+            
+        # Create an `artifacts` dictionary that assigns a unique name to the saved XGBoost model file.
+        # This dictionary will be passed to `mlflow.pyfunc.save_model`, which will copy the model file
+        # into the new MLflow model's directory.
+
+        artifacts = {
+            "exogen_variables": os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
+        }
+
+        #how do i set the directory so he understands where the file is? because it comes from a repository?
+
+
+        #C: need to be taken out otherwise it doesn't find the directory
