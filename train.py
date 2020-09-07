@@ -668,5 +668,5 @@ if __name__ == "__main__":
 
         model_path = "/Users/mah/MLmodel_ETS_Exogen_Project"
         ETS_Exogen = ETS_Exogen(params=res.x, before=before,after=after) #taking parameters from the model
-        mlflow.pyfunc.log_model(python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
+        mlflow.pyfunc.log_model(python_model=ETS_Exogen, conda_env=conda_env)#, artifacts=artifacts)
         #mlflow.pyfunc.save_model(path=model_path, python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
