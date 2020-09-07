@@ -9,6 +9,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from scipy.optimize import minimize 
 import mlflow
 import mlflow.pyfunc
+import cloudpickle
 
 
 #defining all required functions
@@ -654,7 +655,7 @@ if __name__ == "__main__":
 
         # Create a Conda environment for the new MLflow model that contains the XGBoost library
         # as a dependency, as well as the required CloudPickle library
-        import cloudpickle
+        
         conda_env = {
             'channels': ['defaults'],
             'dependencies': [
@@ -667,5 +668,4 @@ if __name__ == "__main__":
 
         model_path = "/Users/mah/MLmodel_ETS_Exogen_Project"
         ETS_Exogen = ETS_Exogen(params=res.x, before=before,after=after) #taking parameters from the model
-        mlflow.pyfunc.save_model(
-                    path=model_path, python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
+        #mlflow.pyfunc.save_model(path=model_path, python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
