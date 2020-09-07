@@ -349,6 +349,9 @@ if __name__ == "__main__":
         #running the model optimization
         res = minimize(model, Starting_Parameters_optimal, args=(np.array(y['revenue']), exog_to_train), 
                        method='L-BFGS-B', bounds = bounds)
+        
+        #logging in optimal parameters
+        mlflow.log_param("Model_Parameters_optimal", res.x)
 
         #the fit extracter is run with the optimal values optained from the optimizer (res.x) and the time series y
         fit = fit_extracter(res.x, np.array(y['revenue']), exog_to_train)
@@ -661,3 +664,8 @@ if __name__ == "__main__":
             ],
             'name': 'naiv_env'
         }
+
+        model_path = "/Users/mah/MLmodel_ETS_Exogen_Project"
+        ETS_Exogen = ETS_Exogen(params=res.x, before=before,after=after) #taking parameters from the model
+        mlflow.pyfunc.save_model(
+                    path=model_path, python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
