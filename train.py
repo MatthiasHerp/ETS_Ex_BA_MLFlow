@@ -648,9 +648,10 @@ if __name__ == "__main__":
         # into the new MLflow model's directory.
 
         artifacts = {
-            "exogen_variables": "/Users/mah/Desktop/M5_Wallmart_Challenge/exogen_variables.csv"
+            "exogen_variables": os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
         }
         #os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
+        #"/Users/mah/Desktop/M5_Wallmart_Challenge/exogen_variables.csv"
 
         #how do i set the directory so he understands where the file is? because it comes from a repository?
 
