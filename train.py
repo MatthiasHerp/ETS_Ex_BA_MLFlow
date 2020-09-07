@@ -649,5 +649,15 @@ if __name__ == "__main__":
 
         #how do i set the directory so he understands where the file is? because it comes from a repository?
 
-
-        #C: need to be taken out otherwise it doesn't find the directory
+        # Create a Conda environment for the new MLflow model that contains the XGBoost library
+        # as a dependency, as well as the required CloudPickle library
+        import cloudpickle
+        conda_env = {
+            'channels': ['defaults'],
+            'dependencies': [
+                'numpy={}'.format(np.__version__),
+                'pandas={}'.format(pd.__version__),
+                'cloudpickle={}'.format(cloudpickle.__version__)
+            ],
+            'name': 'naiv_env'
+        }
