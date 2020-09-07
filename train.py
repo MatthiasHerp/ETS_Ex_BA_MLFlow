@@ -669,7 +669,7 @@ if __name__ == "__main__":
         }
 
         model_path = "./MLmodel_ETS_Exogen_Project"
-        model_path= "/Users/mah/Desktop/M5_Wallmart_Challenge/exogen_variables.csv"
+        model_path= "/Users/mah/Desktop"
         ETS_Exogen = ETS_Exogen(params=res.x, before=before,after=after) #taking parameters from the model
         #mlflow.pyfunc.log_model(artifact_path=model_path,python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
         mlflow.pyfunc.save_model(path=model_path, python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
