@@ -489,6 +489,152 @@ if __name__ == "__main__":
         #Optimum_Parameters.to_csv('Optimum_Parameters.csv') 
         #mlflow.log_artifact("./Optimum_Parameters.csv")
         
-        
+        # Define the model class
+        class ETS_Exogen(mlflow.pyfunc.PythonModel):
+            #constructor defines attributes of the class
+            #here we have a model thus we have attributes being the parameters of the model
+            #we pass the parameter alpha used in the prediction
+            #we pass the forecasting horizon to have a parameter data scientists calling the model would be interested at changing
 
-        #mlflow.log_model(model, "ETS_Exogen")
+            def __init__(self, params, before, after):
+                self.params = params
+                self.before = before
+                self.after = after
+                #self.h = h
+
+            def load_context(self, context):
+                    import numpy as np
+                    import pandas as pd #data wrangeling
+                    self.exogen = pd.read_csv(context.artifacts["exogen_variables"], index_col='date')
+
+
+            def predict(self, context, model_input):
+
+                def seasonal_matrices():
+
+                    #defining weekly transition matrix:
+                    #1. defining first column of zeros (1 row to short)
+                    col_1 = np.vstack(np.zeros(6))
+                    #2. defining identity matrix 1 row and column to small
+                    col_2_6 = np.identity(6)
+                    #3. adding the 1 column and the identity matrix, now all states are updated to jump up one step in the state vector
+                    matrix_6 = np.hstack((col_1,col_2_6))
+                    #4. creating a final row in which the current state is put in last place and will be added by an update
+                    row_7 = np.concatenate((1,np.zeros(6)), axis = None)
+                    #5. adding the last row to the matrix to make it complete
+                    weekly_transition_matrix = np.vstack((matrix_6,row_7))
+
+                    #defining the weekly updating vector
+                    weekly_update_vector = np.vstack(np.concatenate((np.zeros(6),1), axis = None))
+
+                    return weekly_transition_matrix, weekly_update_vector
+
+                def ETS_M_Ad_M_forecast(alpha,beta,gamma,omega,
+                  l_init_HM,b_init_HM,s_init_HM,reg,h,exogen):
+
+                    #computing the number of time points as the length of the forecasting vector
+                    t = h
+                    point_forecast = list()
+
+                    #Initilaisation
+                    l_past = l_init_HM
+                    b_past = b_init_HM
+                    s_past = s_init_HM
+
+                    #defining the seasonal matrices for the calculation of new state estimates
+                    weekly_transition_matrix, weekly_update_vector = seasonal_matrices()
+
+
+                    #computation loop:
+                    for i in range(1,h+1): #+1 because range(1,31): 1,..30, thus range(1,31+1): 1,...,31
+
+                        #compute one step ahead  forecast for timepoint t
+                        mu = (l_past + omega * b_past) * s_past[0] + np.dot(reg,exogen.iloc[i-1]) * (l_past + omega * b_past) * s_past[0]
+
+                        point_forecast.append(mu)
+
+                        s_past = np.dot(weekly_transition_matrix,s_past)
+
+                    return  point_forecast
+
+                def days_around_events(exogen, before, after):
+
+                    df_before = pd.DataFrame()
+                    df_before['date'] = exogen.index
+
+
+                    for event in exogen.columns:
+                        #saving the column number of the event
+                        event_col_number = exogen.columns.get_loc(event)
+                        #defining the number of days before as an array depending on the number on the before array definde by the user
+                        #Example: event: SNAP_CA --> col_number=0, first position in before=2 (1 & 2 days before), before_event=[1,2]
+                        before_event = [i for i in range(1,before[event_col_number]+1)]
+                        for d in before_event:
+                            day_before = list()
+                            for i in range(0,len(exogen.index)-d): 
+                                    if exogen.iloc[i+d,exogen.columns.get_loc(event)] == 1:
+                                        day_before.append(1)
+                                    else:
+                                        day_before.append(0)
+
+                            day_before.append(np.zeros(d))
+                            day_before=np.concatenate(day_before,axis=None)
+                            df_before[str(str(d)+'_days_before_'+event)] = day_before
+
+                    #making the date the index for better merging
+                    df_before.index = df_before['date']
+                    #deleting the data column as we dont want it as explanatory variable
+                    del df_before['date']
+
+
+                    df_after = pd.DataFrame()
+                    df_after['date'] = exogen.index
+
+
+                    for event in exogen.columns:
+                        #saving the column number of the event
+                        event_col_number = exogen.columns.get_loc(event)
+                        after_event = [i for i in range(1,after[event_col_number]+1)]
+                        for d in after_event:
+                            day_after = list()
+                            day_after.append(np.zeros(d))
+                            for i in range(d,len(exogen.index)): 
+                                    if exogen.iloc[i-d,exogen.columns.get_loc(event)] == 1:
+                                        day_after.append(1)
+                                    else:
+                                        day_after.append(0)
+
+                            day_after=np.concatenate(day_after,axis=None)
+                            df_after[str(str(d)+'_days_after_'+event)] = day_after
+                    #making the date the index for better merging
+                    df_after.index = df_after['date']
+                    #deleting the data column as we dont want it as explanatory variable
+                    del df_after['date']
+
+                    #merging the exogen variable dataframe with the day before data frame
+                    #Note: both merging at the end to aviod problems such as days after days before....
+                    exogen = pd.merge(exogen, df_before, left_index=True, right_index=True)
+                    exogen = pd.merge(exogen, df_after, left_index=True, right_index=True)
+
+                    return exogen
+
+                #pass on exogen data
+                exogen = days_around_events(self.exogen, self.before, self.after)
+
+
+                alpha = self.params[0] 
+                beta = self.params[1]
+                gamma = self.params[2]
+                omega = self.params[3]
+                l_init_HM = self.params[4]
+                b_init_HM = self.params[5]
+                s_init_HM = np.vstack(self.params[6:13])
+                reg = (self.params[13:13+len(exogen.columns)]) #we need the file exogen columns
+
+                #model input is the forecasting horizon
+                h=model_input
+
+                results = ETS_M_Ad_M_forecast(alpha,beta,gamma,omega,
+                      l_init_HM,b_init_HM,s_init_HM,reg,h,exogen) #note I changed exog to exogen here as well as in the hwl function
+
+                return np.concatenate(results,axis=None) #i concatenate because otherwise each result is one array
