@@ -675,7 +675,9 @@ if __name__ == "__main__":
         # exception handling 
         try:
             run_id = run.info.run_id
-            mlflow.pyfunc.save_model(str("runs:/"+run_id+"/model"),python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
+            mlflow.log_param("run_id", run_id)
+            mlflow.log_param("path", str("runs:/"+run_id+"/model"))
+            mlflow.pyfunc.save_model(str("runs:///"+run_id+"/model"),python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
         except: 
             # save stack trace
             stack_trace = traceback.format_exc()
