@@ -306,7 +306,7 @@ if __name__ == "__main__":
     #mlflow.set_experiment("ETS_Exog_B_A")
     
    # Useful for multiple runs (only doing one run in this sample notebook)    
-   with mlflow.start_run():
+   with mlflow.start_run() as run: #as run so that i can get the id later on for logging the model
         #Defining Starting Parameters
         #Optimal Starting parameters after running the starting parameters calculated by the Hyndman method for two iterations
         
