@@ -648,9 +648,9 @@ if __name__ == "__main__":
         # This dictionary will be passed to `mlflow.pyfunc.save_model`, which will copy the model file
         # into the new MLflow model's directory.
 
-        #artifacts = {
-        #    "exogen_variables": os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
-        #}
+        artifacts = {
+            "exogen_variables": "/Users/mah/Desktop/M5_Wallmart_Challenge/exogen_variables.csv"
+        }
         #os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
         #"/Users/mah/Desktop/M5_Wallmart_Challenge/exogen_variables.csv"
 
@@ -669,7 +669,7 @@ if __name__ == "__main__":
             'name': 'naiv_env'
         }
 
-        ETS_Exogen = ETS_Exogen(params=res.x, before=before,after=after) #taking parameters from the model
+        ETS_Exogen = ETS_Exogen(params=forecast_parameters, before=before,after=after) #taking forecasting parameters from the model & last available day
         #mlflow.pyfunc.log_model(python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
         #mlflow.pyfunc.save_model(path=model_path, python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
         # exception handling 
@@ -677,7 +677,7 @@ if __name__ == "__main__":
             run_id = run.info.run_id
             mlflow.log_param("run_id", run_id)
             mlflow.log_param("path", str("runs:/"+run_id+"/artifacts/"))
-            mlflow.pyfunc.log_model("runs:/"+str(run_id)+"/artifacts",python_model=ETS_Exogen, conda_env=conda_env)#, artifacts=artifacts)
+            mlflow.pyfunc.log_model("runs:/"+str(run_id)+"/artifacts",python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
         except: 
             # save stack trace
             stack_trace = traceback.format_exc()
