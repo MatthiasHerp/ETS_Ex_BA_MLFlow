@@ -510,7 +510,8 @@ if __name__ == "__main__":
             def load_context(self, context):
                     import numpy as np
                     import pandas as pd #data wrangeling
-                    self.exogen = pd.read_csv(context.artifacts["exogen_variables"], index_col='date')
+                    url_to_exogen_raw = 'https://raw.githubusercontent.com/MatthiasHerp/ETS_Ex_BA_MLFlow/master/exogen_variables.csv'
+                    self.exogen = pd.read_csv(url, index_col='date')
 
 
             def predict(self, context, model_input):
@@ -648,9 +649,9 @@ if __name__ == "__main__":
         # This dictionary will be passed to `mlflow.pyfunc.save_model`, which will copy the model file
         # into the new MLflow model's directory.
 
-        artifacts = {
-            "exogen_variables": "/Users/mah/Desktop/M5_Wallmart_Challenge/exogen_variables.csv"
-        }
+        #artifacts = {
+        #    "exogen_variables": "/Users/mah/Desktop/M5_Wallmart_Challenge/exogen_variables.csv"
+        #}
         #os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
         #"/Users/mah/Desktop/M5_Wallmart_Challenge/exogen_variables.csv"
 
@@ -677,7 +678,7 @@ if __name__ == "__main__":
             run_id = run.info.run_id
             mlflow.log_param("run_id", run_id)
             mlflow.log_param("path", str("runs:/"+run_id+"/artifacts/"))
-            mlflow.pyfunc.log_model(artifact_path="model",python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
+            mlflow.pyfunc.log_model(artifact_path="model",python_model=ETS_Exogen, conda_env=conda_env)#, artifacts=artifacts)
         except: 
             # save stack trace
             stack_trace = traceback.format_exc()
