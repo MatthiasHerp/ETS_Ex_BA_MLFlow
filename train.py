@@ -677,7 +677,7 @@ if __name__ == "__main__":
             run_id = run.info.run_id
             mlflow.log_param("run_id", run_id)
             mlflow.log_param("path", str("runs:/"+run_id+"/artifacts/"))
-            mlflow.pyfunc.log_model(str("runs:/"+run_id+"/artifacts"),python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
+            mlflow.pyfunc.log_model("runs:/"+str(run_id)+"/artifacts",python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
         except: 
             # save stack trace
             stack_trace = traceback.format_exc()
