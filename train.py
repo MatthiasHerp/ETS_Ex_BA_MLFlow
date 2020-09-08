@@ -676,5 +676,6 @@ if __name__ == "__main__":
         try: 
             mlflow.pyfunc.save_model(python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
         except: 
-            # printing stack trace 
-            traceback.print_exc() 
+            # save stack trace
+            stack_trace = traceback.format_exc()
+            mlflow.log_param("stack trace", stack_trace)
