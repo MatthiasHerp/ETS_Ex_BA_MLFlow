@@ -672,3 +672,9 @@ if __name__ == "__main__":
         ETS_Exogen = ETS_Exogen(params=res.x, before=before,after=after) #taking parameters from the model
         #mlflow.pyfunc.log_model(python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
         #mlflow.pyfunc.save_model(path=model_path, python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
+        # exception handling 
+        try: 
+            mlflow.pyfunc.save_model(python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
+        except: 
+            # printing stack trace 
+            traceback.print_exc() 
