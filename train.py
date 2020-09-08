@@ -511,7 +511,7 @@ if __name__ == "__main__":
                     import numpy as np
                     import pandas as pd #data wrangeling
                     url_to_exogen_raw = 'https://raw.githubusercontent.com/MatthiasHerp/ETS_Ex_BA_MLFlow/master/exogen_variables.csv'
-                    self.exogen = pd.read_csv(url, index_col='date')
+                    self.exogen = pd.read_csv(url_to_exogen_raw, index_col='date')
 
 
             def predict(self, context, model_input):
