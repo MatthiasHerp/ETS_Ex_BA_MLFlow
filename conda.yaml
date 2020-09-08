@@ -12,4 +12,4 @@ dependencies:
   - pip:
     - mlflow>=1.0
     - scipy
-    - cloudpickle=1.6.0
+    - cloudpickle
