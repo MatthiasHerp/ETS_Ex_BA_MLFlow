@@ -372,9 +372,9 @@ if __name__ == "__main__":
         plt.xlabel("date")
         plt.ylabel("revenue_CA_1_FOODS")
         plt.legend(("realization", "fitted"), loc="upper left")
-        plt.savefig('fit_total_plot.png', 'plots') #adds it to the plot folder
+        plt.savefig('fit_total_plot.png')
        
-        mlflow.log_artifact("./fit_total_plot.png")
+        mlflow.log_artifact("./fit_total_plot.png", "plots") #adds it to the plot folder
 
         #Plot the fitted and training data set fpr the first year
         plt.figure(figsize=(15, 5))
@@ -383,9 +383,9 @@ if __name__ == "__main__":
         plt.xlabel("date")
         plt.ylabel("revenue_CA_1_FOODS")
         plt.legend(("realization", "fitted"), loc="upper left")
-        plt.savefig('fit_1year_plot.png', 'plots')
+        plt.savefig('fit_1year_plot.png')
         
-        mlflow.log_artifact("./fit_1year_plot.png")
+        mlflow.log_artifact("./fit_1year_plot.png", "plots")
 
         #extracting the last (most recent) values of the states for forecasting
         l_values = fit['l_list'][len(fit['l_list'])-1:]
@@ -437,11 +437,10 @@ if __name__ == "__main__":
         plt.plot(forecasted_values_365, color="red")
         plt.xlabel("date")
         plt.ylabel("revenue_CA_1_FOODS")
-        plt.legend(("realization", "fitted","forecast"),  
-                       loc="upper left")
-        plt.savefig('fit_forecast_total_plot.png', 'plots')
+        plt.legend(("realization", "fitted","forecast"), loc="upper left")
+        plt.savefig('fit_forecast_total_plot.png')
         
-        mlflow.log_artifact("./fit_forecast_total_plot.png")
+        mlflow.log_artifact("./fit_forecast_total_plot.png", "plots")
 
         #make sure the prediction data set index is a date variable for plotting
         y_predict.index =pd.to_datetime(y_predict.index)
@@ -452,11 +451,10 @@ if __name__ == "__main__":
         plt.plot(forecasted_values_31, color="red")
         plt.xlabel("date")
         plt.ylabel("revenue_CA_1_FOODS")
-        plt.legend(("realization", "forecast"),  
-                       loc="upper left")
-        plt.savefig('fit_forecast_31days_plot.png', 'plots')
+        plt.legend(("realization", "forecast"), loc="upper left")
+        plt.savefig('fit_forecast_31days_plot.png')
         
-        mlflow.log_artifact("./fit_forecast_31days_plot.png")
+        mlflow.log_artifact("./fit_forecast_31days_plot.png", "plots")
         
         y_prediction_horizons = (y_predict['revenue'][:7],y_predict['revenue'][:14],
                                       y_predict['revenue'][:21],y_predict['revenue'][:31],
