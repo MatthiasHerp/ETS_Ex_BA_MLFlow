@@ -337,15 +337,15 @@ if __name__ == "__main__":
         
         #Saving Parameters
 
-        mlflow.log_param("before", before)
+        #mlflow.log_param("before", before)
 
-        mlflow.log_param("after", after)
+        #mlflow.log_param("after", after)
 
-        mlflow.log_param("sys_string", sys_string)
+        #mlflow.log_param("sys_string", sys_string)
 
-        mlflow.log_param("exog", exogen.iloc[1])
+        #mlflow.log_param("exog", exogen.iloc[1])
         
-        mlflow.log_param("bounds", bounds)
+        #mlflow.log_param("bounds", bounds)
         
         mlflow.log_param("Starting_Parameters_optimal", Starting_Parameters_optimal)
 
@@ -395,6 +395,8 @@ if __name__ == "__main__":
         #creating a list of all optimal parameters for forecasting
         forecast_parameters = np.concatenate([res.x[0:4],l_values,b_values,s_values,res.x[13:13+len(exogen.columns)]],
                                              axis=None)
+        #logging the forecasting parameters
+        mlflow.log_param("Model_Forecasting_Parameters_optimal", forecast_parameters)
 
 
         #Note: added len(exog) as now we have variable number of exog variables due to days before and after
@@ -481,10 +483,10 @@ if __name__ == "__main__":
                               step = horizon[i])
         
         #Saving Parameters
-        mlflow.log_param("before", before)
-        mlflow.log_param("after", after)
-        mlflow.log_param("sys_string", sys_string)
-        mlflow.log_param("exog", exogen.iloc[1])
+        #mlflow.log_param("before", before)
+        #mlflow.log_param("after", after)
+        #mlflow.log_param("sys_string", sys_string)
+        #mlflow.log_param("exog", exogen.iloc[1])
                             
         #Saving optimal Parameters as csv artifact
         #Optimum_Parameters = pd.DataFrame(res.x)
@@ -672,9 +674,9 @@ if __name__ == "__main__":
         #mlflow.pyfunc.save_model(path=model_path, python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
         # exception handling 
         try:
-            run_id = run.info.run_id
-            mlflow.log_param("run_id", run_id)
-            mlflow.log_param("path", str("runs:/"+run_id+"/artifacts/"))
+            #run_id = run.info.run_id
+            #mlflow.log_param("run_id", run_id)
+            #mlflow.log_param("path", str("runs:/"+run_id+"/artifacts/"))
             mlflow.pyfunc.log_model(artifact_path="model",python_model=ETS_Exogen, conda_env=conda_env)#, artifacts=artifacts)
         except: 
             # save stack trace
