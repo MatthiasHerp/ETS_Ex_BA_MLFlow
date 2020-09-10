@@ -339,8 +339,34 @@ if __name__ == "__main__":
         fit = fit_extracter(res.x, np.array(y['revenue']), exog_to_train)
 
         #creating a data frame with the time series as date object and index
-        fit_values = pd.DataFrame({'fitted' : fit['point forecast'], 'date' : pd.to_datetime(y.index)})
+        fit_values = pd.DataFrame({'fitted' : np.concatenate(fit['point forecast'],axis=None), 'date' : pd.to_datetime(y.index)})
         fit_values = fit_values.set_index('date')
+        
+        #Plotting results
+        revenue_CA_1_FOODS_day.index =pd.to_datetime(revenue_CA_1_FOODS_day.index)
+        #Plot the fit and the training data set
+        plt.figure(figsize=(15, 5))
+        plt.plot(revenue_CA_1_FOODS_day[:-365], color = 'blue')
+        plt.plot(fit_values, color="green")
+        plt.xlabel("date")
+        plt.ylabel("revenue_CA_1_FOODS")
+        plt.title("Daily Revenue of the Category Foods in the Store CA_1: observations and fitted values")
+        plt.legend(("realization", "fitted"), loc="upper left")
+        plt.savefig('fit_total_plot.png')
+        
+        mlflow.log_artifact("./fit_total_plot.png", "plots") #adds it to the plot folder
+
+        #Plot the fitted and training data set fpr the first year
+        plt.figure(figsize=(15, 5))
+        plt.plot(revenue_CA_1_FOODS_day[:366])
+        plt.plot(fit_values[:366], color="green")
+        plt.xlabel("date")
+        plt.ylabel("revenue_CA_1_FOODS")
+        plt.title("Daily Revenue of the Category Foods in the Store CA_1: observations and fitted values")
+        plt.legend(("realization", "fitted"), loc="upper left")
+        plt.savefig('fit_1year_plot.png')
+        
+        mlflow.log_artifact("./fit_1year_plot.png", "plots")
         
 '''        
         #saving the seasonality
