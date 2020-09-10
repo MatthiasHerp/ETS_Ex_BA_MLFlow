@@ -342,7 +342,7 @@ if __name__ == "__main__":
         fit_values = pd.DataFrame({'fitted' : fit['point forecast'], 'date' : pd.to_datetime(y.index)})
         fit_values = fit_values.set_index('date')
         
-        
+'''        
         #saving the seasonality
         try:
             seasonality_values = pd.DataFrame({'fitted' : np.concatenate(fit['s_list'],axis=None), 'date' : pd.to_datetime(y.index)})
@@ -415,9 +415,10 @@ if __name__ == "__main__":
             mlflow.log_artifact("./trend.png", "plots") #adds it to the plot folder
         
         except:
-            #stack_trace = traceback.format_exc()
-            #mlflow.log_param("stack_trace", stack_trace)
-
+            stack_trace = traceback.format_exc()
+            mlflow.log_param("stack_trace", stack_trace)
+            continue
+'''
 
         #extracting the last (most recent) values of the states for forecasting
         l_values = fit['l_list'][len(fit['l_list'])-1:]
