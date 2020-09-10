@@ -371,6 +371,7 @@ if __name__ == "__main__":
         plt.plot(fit_values, color="green")
         plt.xlabel("date")
         plt.ylabel("revenue_CA_1_FOODS")
+        plt.title("Daily Revenue of the Category Foods in the Store CA_1: observations and fitted values")
         plt.legend(("realization", "fitted"), loc="upper left")
         plt.savefig('fit_total_plot.png')
        
@@ -382,6 +383,7 @@ if __name__ == "__main__":
         plt.plot(fit_values[:366], color="green")
         plt.xlabel("date")
         plt.ylabel("revenue_CA_1_FOODS")
+        plt.title("Daily Revenue of the Category Foods in the Store CA_1: observations and fitted values")
         plt.legend(("realization", "fitted"), loc="upper left")
         plt.savefig('fit_1year_plot.png')
         
@@ -441,7 +443,7 @@ if __name__ == "__main__":
         plt.ylabel("revenue_CA_1_FOODS")
         plt.legend(("realization", "fitted","forecast"), loc="upper left")
         plt.savefig('fit_forecast_total_plot.png')
-        
+        plt.title("Daily Revenue of the Category Foods in the Store CA_1: observations, fitted values and forecasts")
         mlflow.log_artifact("./fit_forecast_total_plot.png", "plots")
 
         #make sure the prediction data set index is a date variable for plotting
@@ -453,6 +455,7 @@ if __name__ == "__main__":
         plt.plot(forecasted_values_31, color="red")
         plt.xlabel("date")
         plt.ylabel("revenue_CA_1_FOODS")
+        plt.title("Daily Revenue of the Category Foods in the Store CA_1: observations, fitted values and forecasts")
         plt.legend(("realization", "forecast"), loc="upper left")
         plt.savefig('fit_forecast_31days_plot.png')
         
