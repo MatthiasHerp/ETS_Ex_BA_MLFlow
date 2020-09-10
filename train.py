@@ -347,7 +347,11 @@ if __name__ == "__main__":
         
         #mlflow.log_param("bounds", bounds)
         
-        mlflow.log_param("Starting_Parameters_optimal", Starting_Parameters_optimal)
+        #mlflow.log_param("Starting_Parameters_optimal", Starting_Parameters_optimal)
+        Starting_Parameters_optimal = pd.DataFrame(Starting_Parameters_optimal)  
+        Starting_Parameters_optimal.to_csv('Optimum_Parameters.csv')
+        mlflow.log_artifact("./Optimum_Parameters.csv", "Parameters")
+
 
         #running the model optimization
         res = minimize(model, Starting_Parameters_optimal, args=(np.array(y['revenue']), exog_to_train), 
