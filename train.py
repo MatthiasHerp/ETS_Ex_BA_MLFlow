@@ -392,9 +392,7 @@ if __name__ == "__main__":
         plt.savefig('fit_1year_plot.png')
         
         mlflow.log_artifact("./fit_1year_plot.png", "plots")
-        
-
-            
+             
 
         #extracting the last (most recent) values of the states for forecasting
         l_values = fit['l_list'][len(fit['l_list'])-1:]
@@ -405,7 +403,10 @@ if __name__ == "__main__":
         forecast_parameters = np.concatenate([res.x[0:4],l_values,b_values,s_values,res.x[13:13+len(exogen.columns)]],
                                              axis=None)
         #logging the forecasting parameters
-        mlflow.log_param("Model_Forecasting_Parameters_optimal", forecast_parameters)
+        #mlflow.log_param("Model_Forecasting_Parameters_optimal", forecast_parameters)
+        forecast_parameters = pd.DataFrame(forecast_parameters)  
+        forecast_parameters.to_csv('Forecast_Parameters.csv')
+        mlflow.log_artifact("./Forecast_Parameters.csv", "Parameters")
 
 
         #Note: added len(exog) as now we have variable number of exog variables due to days before and after
