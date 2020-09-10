@@ -349,8 +349,8 @@ if __name__ == "__main__":
         
         #mlflow.log_param("Starting_Parameters_optimal", Starting_Parameters_optimal)
         Starting_Parameters_optimal = pd.DataFrame(Starting_Parameters_optimal)  
-        Starting_Parameters_optimal.to_csv('Optimum_Parameters.csv')
-        mlflow.log_artifact("./Optimum_Parameters.csv", "Parameters")
+        Starting_Parameters_optimal.to_csv('Starting_Parameters.csv')
+        mlflow.log_artifact("./Starting_Parameters.csv", "Parameters")
 
 
         #running the model optimization
@@ -358,8 +358,11 @@ if __name__ == "__main__":
                        method='L-BFGS-B', bounds = bounds)
         
         #logging in optimal parameters
-        mlflow.log_param("Model_Parameters_optimal", res.x)
-
+        #mlflow.log_param("Model_Parameters_optimal", res.x)
+        #Optimum_Model_Parameters = pd.DataFrame(res.x)  
+        #Optimum_Model_Parameters.to_csv('Optimum_Model_Parameters.csv')
+        #mlflow.log_artifact("./Optimum_Model_Parameters.csv", "Parameters")
+        
         #the fit extracter is run with the optimal values optained from the optimizer (res.x) and the time series y
         fit = fit_extracter(res.x, np.array(y['revenue']), exog_to_train)
 
@@ -404,9 +407,9 @@ if __name__ == "__main__":
                                              axis=None)
         #logging the forecasting parameters
         #mlflow.log_param("Model_Forecasting_Parameters_optimal", forecast_parameters)
-        forecast_parameters = pd.DataFrame(forecast_parameters)  
-        forecast_parameters.to_csv('Forecast_Parameters.csv')
-        mlflow.log_artifact("./Forecast_Parameters.csv", "Parameters")
+        #forecast_parameters = pd.DataFrame(forecast_parameters)  
+        #forecast_parameters.to_csv('Forecast_Parameters.csv')
+        #mlflow.log_artifact("./Forecast_Parameters.csv", "Parameters")
 
 
         #Note: added len(exog) as now we have variable number of exog variables due to days before and after
@@ -700,6 +703,10 @@ if __name__ == "__main__":
             plt.savefig('seasonality.png')
 
             mlflow.log_artifact("./seasonality.png", "plots") #adds it to the plot folder
+            
+            forecast_parameters = pd.DataFrame(forecast_parameters)  
+            forecast_parameters.to_csv('Forecast_Parameters.csv')
+            mlflow.log_artifact("./Forecast_Parameters.csv", "Parameters")
 
         except: 
             # save stack trace
