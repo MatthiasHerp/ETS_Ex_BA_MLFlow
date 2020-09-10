@@ -704,6 +704,37 @@ if __name__ == "__main__":
 
             mlflow.log_artifact("./seasonality.png", "plots") #adds it to the plot folder
             
+            #saving the level
+            level_values = pd.DataFrame({'fitted' : np.concatenate(fit['l_list'],axis=None), 'date' : pd.to_datetime(y.index)})
+            level_values = level_values.set_index('date')
+            
+            #Plotting the level
+
+            plt.figure(figsize=(15, 5))        
+            plt.plot(level_values, color="blue")
+            plt.xlabel("date")
+            plt.ylabel("level in US Dollar")
+            plt.title("Level estimate over the entire training data")
+            plt.savefig('level.png')
+
+            mlflow.log_artifact("./level.png", "plots") #adds it to the plot folder
+
+            #saving the trend
+            trend_values = pd.DataFrame({'fitted' : np.concatenate(fit['b_list'],axis=None), 'date' : pd.to_datetime(y.index)})
+            trend_values = trend_values.set_index('date')
+            
+            #Plotting the trend
+
+            plt.figure(figsize=(15, 5))
+            plt.plot(trend_values, color="blue")
+            plt.xlabel("date")
+            plt.ylabel("trend factor")
+            plt.title("trend factor over the entire training data")
+            plt.savefig('trend.png')
+
+            mlflow.log_artifact("./trend.png", "plots") #adds it to the plot folder
+           
+            
             forecast_parameters = pd.DataFrame(forecast_parameters)  
             forecast_parameters.to_csv('Forecast_Parameters.csv')
             mlflow.log_artifact("./Forecast_Parameters.csv", "Parameters")
