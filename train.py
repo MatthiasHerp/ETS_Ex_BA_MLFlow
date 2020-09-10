@@ -416,7 +416,7 @@ if __name__ == "__main__":
         
         except:
             stack_trace = traceback.format_exc()
-            ml.log_param("stack_trace", stack_trace)
+            mlflow.log_param("stack_trace", stack_trace)
 
 
         #extracting the last (most recent) values of the states for forecasting
