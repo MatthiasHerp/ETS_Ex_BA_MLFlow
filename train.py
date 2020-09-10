@@ -388,6 +388,9 @@ if __name__ == "__main__":
         plt.savefig('fit_1year_plot.png')
         
         mlflow.log_artifact("./fit_1year_plot.png", "plots")
+        
+
+            
 
         #extracting the last (most recent) values of the states for forecasting
         l_values = fit['l_list'][len(fit['l_list'])-1:]
@@ -676,6 +679,9 @@ if __name__ == "__main__":
         #mlflow.pyfunc.log_model(python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
         #mlflow.pyfunc.save_model(path=model_path, python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
         # exception handling 
+        
+        mlflow.pyfunc.log_model(artifact_path="model",python_model=ETS_Exogen, conda_env=conda_env)#, artifacts=artifacts)
+        
         try:
             #run_id = run.info.run_id
             #mlflow.log_param("run_id", run_id)
