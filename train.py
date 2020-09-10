@@ -683,10 +683,19 @@ if __name__ == "__main__":
         mlflow.pyfunc.log_model(artifact_path="model",python_model=ETS_Exogen, conda_env=conda_env)#, artifacts=artifacts)
         
         try:
-            #run_id = run.info.run_id
-            #mlflow.log_param("run_id", run_id)
-            #mlflow.log_param("path", str("runs:/"+run_id+"/artifacts/"))
-            mlflow.pyfunc.log_model(artifact_path="model",python_model=ETS_Exogen, conda_env=conda_env)#, artifacts=artifacts)
+            seasonality_values = pd.DataFrame({'fitted' : np.concatenate(fit['s_list'],axis=None), 'date' : pd.to_datetime(y.index)})
+            seasonality_values = seasonality_values.set_index('date')
+            
+            #Plotting the seasonality
+            plt.figure(figsize=(15, 5))
+            plt.plot(seasonality_values, color="blue")
+            plt.xlabel("date")
+            plt.ylabel("seasonality factor")
+            plt.title("Seasonality factor over the entire training data")
+            plt.savefig('seasonality.png')
+
+            mlflow.log_artifact("./seasonality.png", "plots") #adds it to the plot folder
+
         except: 
             # save stack trace
             stack_trace = traceback.format_exc()
