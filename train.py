@@ -341,6 +341,18 @@ if __name__ == "__main__":
         #creating a data frame with the time series as date object and index
         fit_values = pd.DataFrame({'fitted' : fit['point forecast'], 'date' : pd.to_datetime(y.index)})
         fit_values = fit_values.set_index('date')
+        
+        #saving the seasonality
+        seasonality_values = pd.DataFrame({'fitted' : fit['s_list'], 'date' : pd.to_datetime(y.index)})
+        seasonality_values = seasonality_values.set_index('date')
+        
+        #saving the level
+        level_values = pd.DataFrame({'fitted' : fit['l_list'], 'date' : pd.to_datetime(y.index)})
+        level_values = level_values.set_index('date')
+        
+        #saving the trend
+        trend_values = pd.DataFrame({'fitted' : fit['b_list'], 'date' : pd.to_datetime(y.index)})
+        trend_values = trend_values.set_index('date')
 
         #Plotting results
         revenue_CA_1_FOODS_day.index =pd.to_datetime(revenue_CA_1_FOODS_day.index)
@@ -367,6 +379,38 @@ if __name__ == "__main__":
         plt.savefig('fit_1year_plot.png')
         
         mlflow.log_artifact("./fit_1year_plot.png", "plots")
+        
+        #Plotting the seasonality
+        plt.figure(figsize=(15, 5))
+        plt.plot(seasonality_values, color="blue")
+        plt.xlabel("date")
+        plt.ylabel("seasonality factor")
+        plt.title("Seasonality factor over the entire training data")
+        plt.savefig('seasonality.png')
+       
+        mlflow.log_artifact("./seasonality.png", "plots") #adds it to the plot folder
+        
+        #Plotting the level
+        
+        plt.figure(figsize=(15, 5))        
+        plt.plot(level_values, color="blue")
+        plt.xlabel("date")
+        plt.ylabel("level in US Dollar")
+        plt.title("Level estimate over the entire training data")
+        plt.savefig('level.png')
+       
+        mlflow.log_artifact("./level.png", "plots") #adds it to the plot folder
+        
+        #Plotting the trend
+
+        plt.figure(figsize=(15, 5))
+        plt.plot(trend_values, color="blue")
+        plt.xlabel("date")
+        plt.ylabel("trend factor")
+        plt.title("trend factor over the entire training data")
+        plt.savefig('trend.png')
+       
+        mlflow.log_artifact("./trend.png", "plots") #adds it to the plot folder
 
         #extracting the last (most recent) values of the states for forecasting
         l_values = fit['l_list'][len(fit['l_list'])-1:]
