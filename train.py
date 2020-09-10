@@ -729,7 +729,7 @@ if __name__ == "__main__":
             
             #Plotting the seasonality for short range with week days
             plt.figure(figsize=(15, 5))
-            plt.plot(weekly[0:7], color="blue")
+            plt.plot(weekly[2:9], color="blue")
             plt.xlabel("Day of the week")
             plt.ylabel("seasonality factor")
             plt.title("Seasonality factor for the first week of the training data")
