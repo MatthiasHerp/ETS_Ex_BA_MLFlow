@@ -415,8 +415,8 @@ if __name__ == "__main__":
             mlflow.log_artifact("./trend.png", "plots") #adds it to the plot folder
         
         except:
-            stack_trace = traceback.format_exc()
-            mlflow.log_param("stack_trace", stack_trace)
+            #stack_trace = traceback.format_exc()
+            #mlflow.log_param("stack_trace", stack_trace)
 
 
         #extracting the last (most recent) values of the states for forecasting
