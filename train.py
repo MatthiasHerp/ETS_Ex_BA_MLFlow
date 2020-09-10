@@ -106,29 +106,17 @@ def model(params, y, exog):
 
 def calc_new_estimates(l_past, b_past, s_past, alpha, beta, omega, gamma, e, weekly_transition_matrix,
                        weekly_update_vector):
-    try:
-        l = (l_past + omega * b_past) * (1 + alpha * e)
-        b = omega * b_past + beta * (l_past + omega * b_past) * e
-        s = np.dot(weekly_transition_matrix, s_past) + weekly_update_vector * gamma * e
-    except:
-        print('lpast: ', l_past)
-        print('bpast', b_past)
-        print('spast', s_past)
-        print('alpha', alpha)
-        print('beta', beta)
-        print('omeag', omega)
-        print('gamma', gamma)
-        print('error', e)
-
+    l = (l_past + omega * b_past) * (1 + alpha * e)
+    b = omega * b_past + beta * (l_past + omega * b_past) * e
+    s = np.dot(weekly_transition_matrix, s_past) + weekly_update_vector * gamma * e
+   
     return l, b, s
 
 
 # Define the model step: calculate errors
 def calc_error(l_past, b_past, s_past, omega, y, i, reg, exog):
     mu = (l_past + omega * b_past) * s_past[0] + np.dot(reg, exog.iloc[i]) * (l_past + omega * b_past) * s_past[0]
-
     e = (y[i] - mu) / y[i]
-
     e_absolute = y[i] - mu
 
     return mu, e, e_absolute
@@ -334,20 +322,11 @@ if __name__ == "__main__":
         #adding one bound for each additional day before and after
         for i in range(0,sum(before)+sum(after)):
             bounds.append((-1,np.inf))
-        
-        #Saving Parameters
-
-        #mlflow.log_param("before", before)
-
-        #mlflow.log_param("after", after)
-
-        #mlflow.log_param("sys_string", sys_string)
-
-        #mlflow.log_param("exog", exogen.iloc[1])
-        
-        #mlflow.log_param("bounds", bounds)
-        
-        mlflow.log_param("Starting_Parameters_optimal", Starting_Parameters_optimal)
+            
+        #Saving optimal Parameters to csv file
+        Starting_Parameters_optimal = pd.DataFrame(Starting_Parameters_optimal)  
+        Starting_Parameters_optimal.to_csv('Optimum_Parameters.csv')
+        mlflow.log_artifact("./Optimum_Parameters.csv", "Parameters")
 
         #running the model optimization
         res = minimize(model, Starting_Parameters_optimal, args=(np.array(y['revenue']), exog_to_train), 
@@ -397,8 +376,11 @@ if __name__ == "__main__":
         #creating a list of all optimal parameters for forecasting
         forecast_parameters = np.concatenate([res.x[0:4],l_values,b_values,s_values,res.x[13:13+len(exogen.columns)]],
                                              axis=None)
-        #logging the forecasting parameters
-        mlflow.log_param("Model_Forecasting_Parameters_optimal", forecast_parameters)
+        
+        #Saving optimal forecasting Parameters to csv file
+        forecast_parameters = pd.DataFrame(forecast_parameters)  
+        forecast_parameters.to_csv('Optimum_Forecast_Parameters.csv')
+        mlflow.log_artifact("./Optimum_Forecast_Parameters.csv", "Parameters")
 
 
         #Note: added len(exog) as now we have variable number of exog variables due to days before and after
@@ -486,15 +468,9 @@ if __name__ == "__main__":
                               step = horizon[i])
         
         #Saving Parameters
-        #mlflow.log_param("before", before)
-        #mlflow.log_param("after", after)
-        #mlflow.log_param("sys_string", sys_string)
-        #mlflow.log_param("exog", exogen.iloc[1])
-                            
-        #Saving optimal Parameters as csv artifact
-        #Optimum_Parameters = pd.DataFrame(res.x)
-        #Optimum_Parameters.to_csv('Optimum_Parameters.csv') 
-        #mlflow.log_artifact("./Optimum_Parameters.csv")
+        mlflow.log_param("before", before)
+        mlflow.log_param("after", after)
+        
         
         # Define the model class
         class ETS_Exogen(mlflow.pyfunc.PythonModel):
@@ -651,14 +627,6 @@ if __name__ == "__main__":
         # This dictionary will be passed to `mlflow.pyfunc.save_model`, which will copy the model file
         # into the new MLflow model's directory.
 
-        #artifacts = {
-        #    "exogen_variables": "/Users/mah/Desktop/M5_Wallmart_Challenge/exogen_variables.csv"
-        #}
-        #os.path.join(os.path.dirname(os.path.abspath(__file__)), "exogen_variables.csv")
-        #"/Users/mah/Desktop/M5_Wallmart_Challenge/exogen_variables.csv"
-
-        #how do i set the directory so he understands where the file is? because it comes from a repository?
-
         # Create a Conda environment for the new MLflow model that contains the XGBoost library
         # as a dependency, as well as the required CloudPickle library
         
@@ -676,12 +644,5 @@ if __name__ == "__main__":
         #mlflow.pyfunc.log_model(python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
         #mlflow.pyfunc.save_model(path=model_path, python_model=ETS_Exogen, conda_env=conda_env, artifacts=artifacts)
         # exception handling 
-        try:
-            #run_id = run.info.run_id
-            #mlflow.log_param("run_id", run_id)
-            #mlflow.log_param("path", str("runs:/"+run_id+"/artifacts/"))
-            mlflow.pyfunc.log_model(artifact_path="model",python_model=ETS_Exogen, conda_env=conda_env)#, artifacts=artifacts)
-        except: 
-            # save stack trace
-            stack_trace = traceback.format_exc()
-            mlflow.log_param("stack trace", stack_trace)
+        
+        mlflow.pyfunc.log_model(artifact_path="model",python_model=ETS_Exogen, conda_env=conda_env)#, artifacts=artifacts)
