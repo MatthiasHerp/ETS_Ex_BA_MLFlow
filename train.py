@@ -359,9 +359,9 @@ if __name__ == "__main__":
         
         #logging in optimal parameters
         #mlflow.log_param("Model_Parameters_optimal", res.x)
-        #Optimum_Model_Parameters = pd.DataFrame(res.x)  
-        #Optimum_Model_Parameters.to_csv('Optimum_Model_Parameters.csv')
-        #mlflow.log_artifact("./Optimum_Model_Parameters.csv", "Parameters")
+        Optimum_Model_Parameters = pd.DataFrame(res.x)  
+        Optimum_Model_Parameters.to_csv('Optimum_Model_Parameters.csv')
+        mlflow.log_artifact("./Optimum_Model_Parameters.csv", "Parameters")
         
         #the fit extracter is run with the optimal values optained from the optimizer (res.x) and the time series y
         fit = fit_extracter(res.x, np.array(y['revenue']), exog_to_train)
