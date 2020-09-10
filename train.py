@@ -704,6 +704,40 @@ if __name__ == "__main__":
 
             mlflow.log_artifact("./seasonality.png", "plots") #adds it to the plot folder
             
+            day_list = list()
+            for i in range(0,len(seasonality_values)):
+                if revenue_CA_1_FOODS_day.index.weekday[i] == 0:
+                    day_list.append("Monday")
+                if revenue_CA_1_FOODS_day.index.weekday[i] == 1:
+                    day_list.append("Tuesday")
+                if revenue_CA_1_FOODS_day.index.weekday[i] == 2:
+                    day_list.append("Wensday")
+                if revenue_CA_1_FOODS_day.index.weekday[i] == 3:
+                    day_list.append("Thursday")
+                if revenue_CA_1_FOODS_day.index.weekday[i] == 4:
+                    day_list.append("Friday")
+                if revenue_CA_1_FOODS_day.index.weekday[i] == 5:
+                    day_list.append("Saturday")
+                if revenue_CA_1_FOODS_day.index.weekday[i] == 6:
+                    day_list.append("Sunday")
+                #print(np.concatenate(day_list,axis=None))
+            weekly = seasonality_values
+            weekly["weekday"] = np.array(day_list)
+            
+            weekly.index = weekly["weekday"]
+            del weekly["weekday"]
+            
+            #Plotting the seasonality for short range with week days
+            plt.figure(figsize=(15, 5))
+            plt.plot(weekly[0:7], color="blue")
+            plt.xlabel("Day of the week")
+            plt.ylabel("seasonality factor")
+            plt.title("Seasonality factor for the first week of the training data")
+            plt.savefig('week1_seasonality.png')
+
+            mlflow.log_artifact("./week1_seasonality.png", "plots") #adds it to the plot folder
+            
+            
             #saving the level
             level_values = pd.DataFrame({'fitted' : np.concatenate(fit['l_list'],axis=None), 'date' : pd.to_datetime(y.index)})
             level_values = level_values.set_index('date')
